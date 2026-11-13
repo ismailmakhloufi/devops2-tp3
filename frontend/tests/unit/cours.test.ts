@@ -40,6 +40,7 @@ describe("formatDuration", () => {
   });
 });
 
+
 describe("filterCours", () => {
   it("renvoie tous les cours sans filtre", () => {
     expect(filterCours(COURS, {})).toHaveLength(4);
@@ -53,7 +54,17 @@ describe("filterCours", () => {
   it("ne filtre pas quand le niveau vaut « tous »", () => {
     expect(filterCours(COURS, { level: "tous" })).toHaveLength(4);
   });
+
+  it("renvoie une liste vide quand il n'y a aucun cours", () => {
+    expect(filterCours([], { query: "docker", level: "avance" })).toEqual([]);
+  });
+
+  it("combine la recherche et le niveau", () => {
+    const resultat = filterCours(COURS, { query: "git", level: "debutant" });
+    expect(resultat.map((c) => c.documentId)).toEqual(["d"]);
+  });
 });
+
 
 describe("sortBySession", () => {
   it("trie les cours par numéro de séance", () => {
